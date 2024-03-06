@@ -1,0 +1,26 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:15.5
+    container_name: psql-1
+    environment:
+      - POSTGRES_USER=anbiasenggagau
+      - POSTGRES_PASSWORD=supersecret
+    ports:
+      - 5432:5432
+    volumes:
+      - ./PrimaryDatabase/pg_data:/var/lib/postgresql/data
+      - ./PrimaryDatabase/init_sql:/docker-entrypoint-initdb.d
+  postgres_extension:
+    image: postgres:15.5
+    container_name: psql-2
+    environment:
+      - POSTGRES_USER=anbiasenggagau
+      - POSTGRES_PASSWORD=supersecret
+    ports:
+      - 5433:5432
+    volumes:
+      - ./SecondaryDatabase/backup:/var/lib/postgresql/backup
+      - ./SecondaryDatabase/pg_data:/var/lib/postgresql/data
+
+# docker run --rm -it --name=pgpool --network=e4a2075fe5e5 testdebian bash
